@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Global objects · Node JS</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## Global objects"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Global objects · Node JS"/><meta property="og:type" content="website"/><meta property="og:url" content="https://joseignaciodimarco.github.io/nodejsdocindex"/><meta property="og:description" content="## Global objects"/><meta property="og:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/nodejsdocimg/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/nodejsdocjs/scrollSpy.js"></script><link rel="stylesheet" href="/nodejsdoccss/main.css"/><script src="/nodejsdocjs/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/nodejsdoc"><img class="logo" src="/nodejsdocimg/favicon.ico" alt="Node JS"/><h2 class="headerTitleWithLogo">Node JS</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Introduction to Node.js</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction to Node.js</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/introduction">Basic Concepts</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/repl">REPL</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/nodejsdocdocs/global">Global objects</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/eventloop">Event Loop</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/exports_require">Exports and Require</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">NPM</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npm">NPM - Node package manager</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/publish">Publish packages to npm</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npx">npx</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Core modules</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/events">Events</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/fs">File system</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/buffers">Buffers</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/streams">Streams</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Global objects</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="global-objects"></a><a href="#global-objects" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global objects</h2>
+<p>These objects are available in all modules. The following variables may appear to be global but are not. They exist only in the scope of modules:</p>
+<ul>
+<li><code>__dirname</code></li>
+<li><code>__filename</code></li>
+<li><code>exports</code></li>
+<li><code>module</code></li>
+<li><code>require()</code></li>
+</ul>
+<p>The objects listed here are specific to Node.js. There are built-in objects that are part of the JavaScript language itself, which are also globally accessible.</p>
+<h2><a class="anchor" aria-hidden="true" id="class-buffer"></a><a href="#class-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Class: Buffer</h2>
+<p>Used to handle binary data.</p>
+<h2><a class="anchor" aria-hidden="true" id="__dirname"></a><a href="#__dirname" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>__dirname</h2>
+<p>The directory name of the current module.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-built_in">console</span>.log(__dirname);
+<span class="hljs-comment">// Prints: /Users/mjr</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="__filename"></a><a href="#__filename" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>__filename</h2>
+<p>The file name of the current module.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-built_in">console</span>.log(__filename);
+<span class="hljs-comment">// Prints: /Users/mjr/example.js</span>
+<span class="hljs-built_in">console</span>.log(__dirname);
+<span class="hljs-comment">// Prints: /Users/mjr</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="setimmediatecallback-args"></a><a href="#setimmediatecallback-args" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>setImmediate(callback[, ...args])</h2>
+<p>Schedules the &quot;immediate&quot; execution of the callback after I/O events' callbacks.</p>
+<h2><a class="anchor" aria-hidden="true" id="clearimmediateimmediateobject"></a><a href="#clearimmediateimmediateobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>clearImmediate(immediateObject)</h2>
+<p>Cancels an Immediate object created by <code>setImmediate()</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="setintervalcallback-delay-args"></a><a href="#setintervalcallback-delay-args" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>setInterval(callback, delay[, ...args])</h2>
+<p>Schedules repeated execution of callback every delay milliseconds.</p>
+<h2><a class="anchor" aria-hidden="true" id="clearintervalintervalobject"></a><a href="#clearintervalintervalobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>clearInterval(intervalObject)</h2>
+<p>Cancels a Timeout object created by <code>setInterval()</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="settimeoutcallback-delay-args"></a><a href="#settimeoutcallback-delay-args" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>setTimeout(callback, delay[, ...args])</h2>
+<p>Schedules execution of a one-time callback after delay milliseconds.</p>
+<h2><a class="anchor" aria-hidden="true" id="cleartimeouttimeout"></a><a href="#cleartimeouttimeout" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>clearTimeout(timeout)</h2>
+<p>Cancels a Timeout object created by <code>setTimeout()</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="console"></a><a href="#console" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>console</h2>
+<p>Used to print to stdout and stderr.</p>
+<h2><a class="anchor" aria-hidden="true" id="exports"></a><a href="#exports" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>exports</h2>
+<p>The exports variable is available within a module's file-level scope, and is assigned the value of <code>module.exports</code> before the module is evaluated.</p>
+<p>It allows a shortcut, so that <code>module.exports.f = ...</code> can be written more succinctly as <code>exports.f = ....</code> However, be aware that like any variable, if a new value is assigned to exports, it is no longer bound to module.exports:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-built_in">module</span>.exports.hello = <span class="hljs-literal">true</span>; <span class="hljs-comment">// Exported from require of module</span>
+exports = { <span class="hljs-attr">hello</span>: <span class="hljs-literal">false</span> };  <span class="hljs-comment">// Not exported, only available in the module</span>
+</code></pre>
+<p>When the module.exports property is being completely replaced by a new object, it is common to also reassign exports:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-built_in">module</span>.exports = exports = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Constructor</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// ... etc.</span>
+};
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="global"></a><a href="#global" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>global</h2>
+<p>In browsers, the top-level scope is the global scope. This means that within the browser var something will define a new global variable. In Node.js this is different. The top-level scope is not the global scope; var something inside a Node.js module will be local to that module.</p>
+<h2><a class="anchor" aria-hidden="true" id="module"></a><a href="#module" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>module</h2>
+<p>A reference to the current module. In particular, module.exports is used for defining what a module <code>exports</code> and makes available through <code>require()</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="process"></a><a href="#process" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>process</h2>
+<p>The process object is a global that provides information about, and control over, the current Node.js process. As a global, it is always available to Node.js applications without using <code>require()</code>.
+It is an instance of EventEmitter class and has many useful methods that help us in knowing more about the processes that happened and also about currently undergoing the process.</p>
+<h2><a class="anchor" aria-hidden="true" id="require"></a><a href="#require" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>require</h2>
+<p>Used to import modules, JSON, and local files. Modules can be imported from node_modules. Local modules and JSON files can be imported using a relative path <code>(e.g. ./, ./foo, ./bar/baz, ../foo)</code> that will be resolved against the directory named by <code>__dirname</code> (if defined) or the current working directory.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-comment">// Importing a local module with a path relative to the `__dirname` or current</span>
+<span class="hljs-comment">// working directory. (On Windows, this would resolve to .\path\myLocalModule.)</span>
+<span class="hljs-keyword">const</span> myLocalModule = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./path/myLocalModule'</span>);
+
+<span class="hljs-comment">// Importing a JSON file:</span>
+<span class="hljs-keyword">const</span> jsonData = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./path/filename.json'</span>);
+
+<span class="hljs-comment">// Importing a module from node_modules or Node.js built-in module:</span>
+<span class="hljs-keyword">const</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">'crypto'</span>);
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="url"></a><a href="#url" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>URL</h2>
+<p><code>URL</code> is a constructor method that is used to parse URL. It returns an object containing the parsed data.</p>
+<p>For example:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> url = <span class="hljs-keyword">new</span> URL(<span class="hljs-string">'https://www.onlinebooks.com/books/'</span>);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The url protocol: <span class="hljs-subst">${url.protocol}</span>`</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The url path : <span class="hljs-subst">${url.pathname}</span>`</span>);  
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The url hostname: <span class="hljs-subst">${url.hostname}</span>`</span>);
+</code></pre>
+<p>Output:</p>
+<pre><code class="hljs css language-console">The url protocol: https
+The url path: /books/
+The url hostname: www.onlinebooks.com
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="urlsearchparams"></a><a href="#urlsearchparams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>URLSearchParams</h2>
+<p>The <code>URLSearchParams</code> API provides read and write access to the query of a <code>URL</code>. The <code>URLSearchParams</code> class can also be used standalone with one of the four following constructors. The <code>URLSearchParams</code> class is also available on the global object.</p>
+<ul>
+<li>Instantiate a new empty URLSearchParams object.</li>
+</ul>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">new</span> URLSearchParams();
+</code></pre>
+<ul>
+<li>Parse the string as a query string, and use it to instantiate a new URLSearchParams object.</li>
+</ul>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">new</span> URLSearchParams(string);
+</code></pre>
+<ul>
+<li>Instantiate a new URLSearchParams object with a query hash map. The key and value of each property of obj are always coerced to strings.</li>
+</ul>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">new</span> URLSearchParams(obj);
+</code></pre>
+<ul>
+<li>Instantiate a new URLSearchParams object with an iterable like an array or or any iterable object.</li>
+</ul>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">new</span> URLSearchParams(iterable);
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/nodejsdocdocs/repl"><span class="arrow-prev">← </span><span>REPL</span></a><a class="docs-next button" href="/nodejsdocdocs/eventloop"><span>Event Loop</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#global-objects">Global objects</a></li><li><a href="#class-buffer">Class: Buffer</a></li><li><a href="#__dirname">__dirname</a></li><li><a href="#__filename">__filename</a></li><li><a href="#setimmediatecallback-args">setImmediate(callback[, ...args])</a></li><li><a href="#clearimmediateimmediateobject">clearImmediate(immediateObject)</a></li><li><a href="#setintervalcallback-delay-args">setInterval(callback, delay[, ...args])</a></li><li><a href="#clearintervalintervalobject">clearInterval(intervalObject)</a></li><li><a href="#settimeoutcallback-delay-args">setTimeout(callback, delay[, ...args])</a></li><li><a href="#cleartimeouttimeout">clearTimeout(timeout)</a></li><li><a href="#console">console</a></li><li><a href="#exports">exports</a></li><li><a href="#global">global</a></li><li><a href="#module">module</a></li><li><a href="#process">process</a></li><li><a href="#require">require</a></li><li><a href="#url">URL</a></li><li><a href="#urlsearchparams">URLSearchParams</a></li></ul></nav></div><footer class="nav-footer" id="footer"></footer></div></body></html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Streams · Node JS</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## What are streams?"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Streams · Node JS"/><meta property="og:type" content="website"/><meta property="og:url" content="https://joseignaciodimarco.github.io/nodejsdocindex"/><meta property="og:description" content="## What are streams?"/><meta property="og:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/nodejsdocimg/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/nodejsdocjs/scrollSpy.js"></script><link rel="stylesheet" href="/nodejsdoccss/main.css"/><script src="/nodejsdocjs/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/nodejsdoc"><img class="logo" src="/nodejsdocimg/favicon.ico" alt="Node JS"/><h2 class="headerTitleWithLogo">Node JS</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Core modules</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction to Node.js</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/introduction">Basic Concepts</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/repl">REPL</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/global">Global objects</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/eventloop">Event Loop</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/exports_require">Exports and Require</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">NPM</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npm">NPM - Node package manager</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/publish">Publish packages to npm</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npx">npx</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Core modules</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/events">Events</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/fs">File system</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/buffers">Buffers</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/nodejsdocdocs/streams">Streams</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Streams</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="what-are-streams"></a><a href="#what-are-streams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What are streams?</h2>
+<p>Streams are one of the fundamental concepts that power Node.js applications. They are data-handling method and are used to read or write input into output sequentially.</p>
+<p>Streams are a way to handle reading/writing files, network communications, or any kind of end-to-end information exchange in an efficient way.</p>
+<p>What makes streams unique, is that instead of a program reading a file into memory all at once like in the traditional way, streams read chunks of data piece by piece, processing its content without keeping it all in memory.</p>
+<p>This makes streams really powerful when working with large amounts of data, for example, a file size can be larger than your free memory space, making it impossible to read the whole file into the memory in order to process it.</p>
+<p>Using streams to process smaller chunks of data, makes it possible to read larger files.</p>
+<p>Streams are not a concept unique to Node.js. They were introduced in the Unix operating system.</p>
+<p>The Node.js <code>stream</code> module provides the foundation upon which all streaming APIs are built. All streams are instances of EventEmitter. It means we can listen events like:</p>
+<ul>
+<li><code>stream.on('data')</code> completar</li>
+<li><code>stream.on('readable')</code> ??  completar</li>
+<li><code>stream.on('close')</code> // cerrar antes que termine de leer todo (aplica para redeable) completar</li>
+<li><code>stream.on('end')</code> // completar</li>
+<li><code>stream.on('finish')</code> // completar</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="why-streams"></a><a href="#why-streams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Why streams</h2>
+<p>Streams basically provide two major advantages compared to other data handling methods:</p>
+<ol>
+<li><code>Memory efficiency</code>: you don’t need to load large amounts of data in memory before you are able to process it.</li>
+<li><code>Time efficiency</code>: it takes significantly less time to start processing data as soon as you have it, rather than having to wait with processing until the entire payload has been transmitted.</li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="types-of-streams-in-nodejs"></a><a href="#types-of-streams-in-nodejs" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types of streams in Node.js</h2>
+<ol>
+<li><code>Writable</code>: streams to which we can write data. For example, fs.createWriteStream() lets us write data to a file using streams.</li>
+<li><code>Readable</code>: streams from which data can be read. For example: fs.createReadStream() lets us read the contents of a file.</li>
+<li><code>Duplex</code>: streams that are both Readable and Writable. For example, net.Socket.</li>
+<li><code>Transform</code>: streams that can modify or transform the data as it is written and read. For example, in the instance of file-compression, you can write compressed data and read decompressed data to and from a file.</li>
+</ol>
+<p><img src="/nodejsdoc/img/streams.png" alt="Streams"></p>
+<h2><a class="anchor" aria-hidden="true" id="streams-powered-nodejs-apis"></a><a href="#streams-powered-nodejs-apis" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Streams-powered Node.js APIs</h2>
+<p>Due to their advantages, many Node.js core modules provide native stream handling capabilities, most notably:</p>
+<ul>
+<li><code>process.stdin</code> returns a stream connected to stdin.</li>
+<li><code>process.stdout</code> returns a stream connected to stdout.</li>
+<li><code>process.stderr</code> returns a stream connected to stderr.</li>
+<li><code>fs.createReadStream()</code> creates a readable stream to a file.</li>
+<li><code>fs.createWriteStream()</code> creates a writable stream to a file.</li>
+<li><code>net.connect()</code> initiates a stream-based connection.</li>
+<li><code>http.request()</code> returns an instance of the http.ClientRequest class, which is a writable stream.</li>
+<li><code>zlib.createGzip()</code> compress data using gzip (a compression algorithm) into a stream.</li>
+<li><code>zlib.createGunzip()</code> decompress a gzip stream.</li>
+<li><code>zlib.createDeflate()</code> compress data using deflate (a compression algorithm) into a stream.</li>
+<li><code>zlib.createInflate()</code> decompress a deflate stream.</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="examples"></a><a href="#examples" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<h3><a class="anchor" aria-hidden="true" id="readable-stream"></a><a href="#readable-stream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Readable stream</h3>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>);
+<span class="hljs-keyword">const</span> data = <span class="hljs-string">''</span>;
+
+<span class="hljs-keyword">const</span> readerStream = fs.createReadStream(<span class="hljs-string">'file.txt'</span>); <span class="hljs-comment">//Create a readable stream</span>
+
+readerStream.setEncoding(<span class="hljs-string">'UTF8'</span>); <span class="hljs-comment">// Set the encoding to be utf8. </span>
+
+<span class="hljs-comment">// Handle stream events --&gt; data, end, and error</span>
+readerStream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">chunk</span>) </span>{
+   data += chunk;
+});
+
+readerStream.on(<span class="hljs-string">'end'</span>,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+   <span class="hljs-built_in">console</span>.log(data);
+});
+
+readerStream.on(<span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+   <span class="hljs-built_in">console</span>.log(err.stack);
+});
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Program Ended"</span>);
+
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="writable-stream"></a><a href="#writable-stream" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Writable stream</h3>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">var</span> readableStream = fs.createReadStream(<span class="hljs-string">'file1.txt'</span>);
+<span class="hljs-keyword">var</span> writableStream = fs.createWriteStream(<span class="hljs-string">'file2.txt'</span>);
+
+readableStream.setEncoding(<span class="hljs-string">'utf8'</span>);
+
+readableStream.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">chunk</span>) </span>{
+    writableStream.write(chunk);
+});
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/nodejsdocdocs/buffers"><span class="arrow-prev">← </span><span>Buffers</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#what-are-streams">What are streams?</a></li><li><a href="#why-streams">Why streams</a></li><li><a href="#types-of-streams-in-nodejs">Types of streams in Node.js</a></li><li><a href="#streams-powered-nodejs-apis">Streams-powered Node.js APIs</a></li><li><a href="#examples">Examples</a><ul class="toc-headings"><li><a href="#readable-stream">Readable stream</a></li><li><a href="#writable-stream">Writable stream</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"></footer></div></body></html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>File system · Node JS</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## File system module"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="File system · Node JS"/><meta property="og:type" content="website"/><meta property="og:url" content="https://joseignaciodimarco.github.io/nodejsdocindex"/><meta property="og:description" content="## File system module"/><meta property="og:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/nodejsdocimg/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/nodejsdocjs/scrollSpy.js"></script><link rel="stylesheet" href="/nodejsdoccss/main.css"/><script src="/nodejsdocjs/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/nodejsdoc"><img class="logo" src="/nodejsdocimg/favicon.ico" alt="Node JS"/><h2 class="headerTitleWithLogo">Node JS</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Core modules</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction to Node.js</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/introduction">Basic Concepts</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/repl">REPL</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/global">Global objects</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/eventloop">Event Loop</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/exports_require">Exports and Require</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">NPM</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npm">NPM - Node package manager</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/publish">Publish packages to npm</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npx">npx</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Core modules</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/events">Events</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/nodejsdocdocs/fs">File system</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/buffers">Buffers</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/streams">Streams</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">File system</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="file-system-module"></a><a href="#file-system-module" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File system module</h2>
+<p>The <code>fs</code> module provides a lot of very useful functionality to access and interact with the file system. Being part of the Node.js core, it can be used by simply requiring it:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+</code></pre>
+<p>The following are just a few methods that we can find:</p>
+<ul>
+<li><code>fs.access()</code>: check if the file exists and Node.js can access it with its permissions.</li>
+<li><code>fs.appendFile()</code>: append data to a file. If the file does not exist, it's created.</li>
+<li><code>fs.chown()</code>: change the owner and group of a file specified by the filename passed.</li>
+<li><code>fs.copyFile()</code>: copies a file.</li>
+<li><code>fs.createReadStream()</code>: create a readable file stream.</li>
+<li><code>fs.createWriteStream()</code>: create a writable file stream.</li>
+<li><code>fs.mkdir()</code>: create a new folder.</li>
+<li><code>fs.readdir()</code>: read the contents of a directory.</li>
+<li><code>fs.readFile()</code>: read the content of a file.</li>
+<li><code>fs.realpath()</code>: resolve relative file path pointers (., ..) to the full path.</li>
+<li><code>fs.rename()</code>: rename a file or folder.</li>
+<li><code>fs.rmdir()</code>: remove a folder.</li>
+<li><code>fs.symlink()</code>: create a new symbolic link to a file.</li>
+<li><code>fs.truncate()</code>: truncate to the specified length the file identified by the filename passe.</li>
+<li><code>fs.writeFile()</code>: write data to a file. Related: fs.write().</li>
+</ul>
+<p>One peculiar thing about the fs module is that all the methods are asynchronous by default, but they can also work synchronously by appending Sync.</p>
+<p>For example:</p>
+<ul>
+<li><code>fs.rename()</code></li>
+<li><code>fs.renameSync()</code></li>
+<li><code>fs.write()</code></li>
+<li><code>fs.writeSync()</code></li>
+</ul>
+<p>When we use a <code>fs</code> asynchronous method we have to pass a callback as second parameter. That callback follows the pattern <code>Error first callback</code>.</p>
+<blockquote>
+<p><strong>Error first callback</strong> <br>
+There’s really only two rules for defining an error-first callback:<br>
+<code>The first argument of the callback is reserved for an error object</code>. If an error occurred, it will be returned by the first <code>err</code> argument. <br>
+<code>The second argument of the callback is reserved for any successful response data</code>. If no error occurred, <code>err</code> will be set to null and any successful data will be returned in the second argument.</p>
+</blockquote>
+<p>Using asynchronous or synchronous methods makes a huge difference in the application flow.
+For example let's examine the fs.rename() method. The asynchronous API is used with a callback:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+fs.rename(<span class="hljs-string">'before.json'</span>, <span class="hljs-string">'after.json'</span>, err =&gt; {
+  <span class="hljs-keyword">if</span> (err) {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(err);
+  }
+
+  <span class="hljs-comment">//done</span>
+})
+</code></pre>
+<p>A synchronous API can be used like this, with a try/catch block to handle errors:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+<span class="hljs-keyword">try</span> {
+  fs.renameSync(<span class="hljs-string">'before.json'</span>, <span class="hljs-string">'after.json'</span>);
+  <span class="hljs-comment">//done</span>
+} <span class="hljs-keyword">catch</span> (err) {
+  <span class="hljs-built_in">console</span>.error(err);
+}
+</code></pre>
+<blockquote>
+<p>The key difference here is that the execution of your script will block in the second example, until the file operation succeeded.</p>
+</blockquote>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/nodejsdocdocs/events"><span class="arrow-prev">← </span><span>Events</span></a><a class="docs-next button" href="/nodejsdocdocs/buffers"><span>Buffers</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#file-system-module">File system module</a></li></ul></nav></div><footer class="nav-footer" id="footer"></footer></div></body></html>

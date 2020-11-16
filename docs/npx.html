@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>npx · Node JS</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="`npx` is a very powerful command that&#x27;s been available in npm starting version 5.2. It lets you run code built with Node.js and published through the npm registry."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="npx · Node JS"/><meta property="og:type" content="website"/><meta property="og:url" content="https://joseignaciodimarco.github.io/nodejsdocindex"/><meta property="og:description" content="`npx` is a very powerful command that&#x27;s been available in npm starting version 5.2. It lets you run code built with Node.js and published through the npm registry."/><meta property="og:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/nodejsdocimg/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/nodejsdocjs/scrollSpy.js"></script><link rel="stylesheet" href="/nodejsdoccss/main.css"/><script src="/nodejsdocjs/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/nodejsdoc"><img class="logo" src="/nodejsdocimg/favicon.ico" alt="Node JS"/><h2 class="headerTitleWithLogo">Node JS</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>NPM</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction to Node.js</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/introduction">Basic Concepts</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/repl">REPL</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/global">Global objects</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/eventloop">Event Loop</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/exports_require">Exports and Require</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">NPM</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npm">NPM - Node package manager</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/publish">Publish packages to npm</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/nodejsdocdocs/npx">npx</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Core modules</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/events">Events</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/fs">File system</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/buffers">Buffers</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/streams">Streams</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">npx</h1></header><article><div><span><p><code>npx</code> is a very powerful command that's been available in npm starting version 5.2. It lets you run code built with Node.js and published through the npm registry.</p>
+<h2><a class="anchor" aria-hidden="true" id="easily-run-local-commands"></a><a href="#easily-run-local-commands" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Easily run local commands</h2>
+<p>Node.js developers used to publish most of the executable commands as global packages, in order for them to be in the path and executable immediately.</p>
+<p>This was a pain because you could not really install different versions of the same command.</p>
+<p>Running <code>npx commandname</code> automatically finds the correct reference of the command inside the <code>node_modules</code> folder of a project, without needing to know the exact path, and without requiring the package to be installed globally and in the user's path.</p>
+<h2><a class="anchor" aria-hidden="true" id="installation-less-command-execution"></a><a href="#installation-less-command-execution" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation-less command execution</h2>
+<p>There is another great feature of <code>npx</code>, which is allowing to run commands without first installing them.</p>
+<p>This is pretty useful, mostly because:</p>
+<ol>
+<li>You don't need to install anything.</li>
+<li>You can run different versions of the same command, using the syntax @version.</li>
+</ol>
+<p>A typical demonstration of using <code>npx</code> is through the <code>cowsay</code> command. <code>cowsay</code> will print a cow saying what you wrote in the command. For example:</p>
+<p><code>cowsay &quot;Hello&quot;</code> will print:</p>
+<pre><code class="hljs css language-console"> _______
+&lt; Hello &gt;
+ -------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+</code></pre>
+<p>This only works if you have the <code>cowsay</code> command globally installed from npm previously. Otherwise you'll get an error when you try to run the command.</p>
+<p><code>npx</code> allows you to run that npm command without having it installed locally:</p>
+<p><code>npx cowsay &quot;Hello&quot;</code></p>
+<p>will do the job.</p>
+<p>Other scenarios include:</p>
+<ul>
+<li>running the <code>vue</code> CLI tool to create new applications and run them: <code>npx vue create my-vue-app</code></li>
+<li>creating a new React app using <code>create-react-app</code>: <code>npx create-react-app my-react-app</code>\</li>
+</ul>
+<p>and many more.</p>
+<p><strong>Once downloaded, the downloaded code will be wiped.</strong></p>
+<h2><a class="anchor" aria-hidden="true" id="run-some-code-using-a-different-nodejs-version"></a><a href="#run-some-code-using-a-different-nodejs-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Run some code using a different Node.js version</h2>
+<p>Use the <code>@</code> to specify the version, and combine that with the <code>node</code> npm package:</p>
+<pre><code class="hljs css language-console">npx node@10 -v #v10.18.1
+npx node@12 -v #v12.14.1
+</code></pre>
+<p>This helps to avoid tools like <code>nvm</code> or the other Node.js version management tools.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/nodejsdocdocs/publish"><span class="arrow-prev">← </span><span>Publish packages to npm</span></a><a class="docs-next button" href="/nodejsdocdocs/events"><span>Events</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#easily-run-local-commands">Easily run local commands</a></li><li><a href="#installation-less-command-execution">Installation-less command execution</a></li><li><a href="#run-some-code-using-a-different-nodejs-version">Run some code using a different Node.js version</a></li></ul></nav></div><footer class="nav-footer" id="footer"></footer></div></body></html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Exports and Require · Node JS</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Node.js has a built-in module system. A Node.js file can import functionality exposed by other Node.js files. When you want to import something you use the following statement to import the functionality exposed in the moduleName.js file that resides in the current file folder."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Exports and Require · Node JS"/><meta property="og:type" content="website"/><meta property="og:url" content="https://joseignaciodimarco.github.io/nodejsdocindex"/><meta property="og:description" content="Node.js has a built-in module system. A Node.js file can import functionality exposed by other Node.js files. When you want to import something you use the following statement to import the functionality exposed in the moduleName.js file that resides in the current file folder."/><meta property="og:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/nodejsdocimg/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/nodejsdocjs/scrollSpy.js"></script><link rel="stylesheet" href="/nodejsdoccss/main.css"/><script src="/nodejsdocjs/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/nodejsdoc"><img class="logo" src="/nodejsdocimg/favicon.ico" alt="Node JS"/><h2 class="headerTitleWithLogo">Node JS</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Introduction to Node.js</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction to Node.js</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/introduction">Basic Concepts</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/repl">REPL</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/global">Global objects</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/eventloop">Event Loop</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/nodejsdocdocs/exports_require">Exports and Require</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">NPM</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npm">NPM - Node package manager</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/publish">Publish packages to npm</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npx">npx</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Core modules</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/events">Events</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/fs">File system</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/buffers">Buffers</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/streams">Streams</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Exports and Require</h1></header><article><div><span><p>Node.js has a built-in module system. A Node.js file can import functionality exposed by other Node.js files. When you want to import something you use the following statement to import the functionality exposed in the moduleName.js file that resides in the current file folder.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> someModule = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./moduleName.js'</span>);
+</code></pre>
+<p>Any other object or variable defined in the file by default is private and not exposed to the outer world. This is what the <code>module.exports</code> API offered by the module system allows us to do.</p>
+<p>When you assign an object or a function as a new exports property, that is the thing that's being exposed, and as such, it can be imported in other parts of your app, or in other apps as well.</p>
+<p>You can do so in a few different ways:</p>
+<p>The first is to assign an object to module.exports, which is an object provided out of the box by the module system, and this will make your file export just that object:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> car = {
+  <span class="hljs-attr">brand</span>: <span class="hljs-string">'Ford'</span>,
+  <span class="hljs-attr">model</span>: <span class="hljs-string">'Fiesta'</span>
+};
+
+<span class="hljs-built_in">module</span>.exports = car;
+
+<span class="hljs-comment">//..in the other file</span>
+
+<span class="hljs-keyword">const</span> car = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./car'</span>);
+</code></pre>
+<p>The second way is to add the exported object as a property of exports. This way allows you to export multiple objects, functions or data:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> car = {
+  <span class="hljs-attr">brand</span>: <span class="hljs-string">'Ford'</span>,
+  <span class="hljs-attr">model</span>: <span class="hljs-string">'Fiesta'</span>
+};
+
+exports.car = car;
+</code></pre>
+<p>or</p>
+<pre><code class="hljs css language-javascript">exports.car = {
+  <span class="hljs-attr">brand</span>: <span class="hljs-string">'Ford'</span>,
+  <span class="hljs-attr">model</span>: <span class="hljs-string">'Fiesta'</span>
+};
+</code></pre>
+<p>And in the other file, you'll use it by referencing a property of your import:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> items = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./items'</span>);
+items.car;
+</code></pre>
+<p>or</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> car = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./items'</span>).car;
+</code></pre>
+<p>What's the difference between module.exports and exports?</p>
+<p>The first exposes the object it points to. The latter exposes the properties of the object it points to.</p>
+<h3><a class="anchor" aria-hidden="true" id="caching"></a><a href="#caching" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Caching</h3>
+<p>Modules are cached after the first time they are loaded. This means (among other things) that every call to <code>require('foo')</code> will get exactly the same object returned, if it would resolve to the same file.</p>
+<p>Provided require.cache is not modified, multiple calls to <code>require('foo')</code> will not cause the module code to be executed multiple times. This is an important feature. With it, &quot;partially done&quot; objects can be returned, thus allowing transitive dependencies to be loaded even when they would cause cycles.</p>
+<p>To have a module execute code multiple times, export a function, and call that function.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/nodejsdocdocs/eventloop"><span class="arrow-prev">← </span><span>Event Loop</span></a><a class="docs-next button" href="/nodejsdocdocs/npm"><span>NPM - Node package manager</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"></footer></div></body></html>

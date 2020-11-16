@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Buffers · Node JS</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## What is a buffer?"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Buffers · Node JS"/><meta property="og:type" content="website"/><meta property="og:url" content="https://joseignaciodimarco.github.io/nodejsdocindex"/><meta property="og:description" content="## What is a buffer?"/><meta property="og:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://joseignaciodimarco.github.io/nodejsdoc/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/nodejsdocimg/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/nodejsdocjs/scrollSpy.js"></script><link rel="stylesheet" href="/nodejsdoccss/main.css"/><script src="/nodejsdocjs/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/nodejsdoc"><img class="logo" src="/nodejsdocimg/favicon.ico" alt="Node JS"/><h2 class="headerTitleWithLogo">Node JS</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Core modules</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Introduction to Node.js</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/introduction">Basic Concepts</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/repl">REPL</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/global">Global objects</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/eventloop">Event Loop</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/exports_require">Exports and Require</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">NPM</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npm">NPM - Node package manager</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/publish">Publish packages to npm</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/npx">npx</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Core modules</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/events">Events</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/fs">File system</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/nodejsdocdocs/buffers">Buffers</a></li><li class="navListItem"><a class="navItem" href="/nodejsdocdocs/streams">Streams</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Buffers</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="what-is-a-buffer"></a><a href="#what-is-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What is a buffer?</h2>
+<p>A buffer is an area of memory. It represents a fixed-size chunk of memory (can't be resized) allocated outside of the V8 JavaScript engine. You can think of a buffer like an array of integers, which each represent a byte of data. It is implemented by the Node.js <code>Buffer</code> class.</p>
+<p>Buffers were introduced to help developers deal with binary data and are deeply linked with streams. When a stream processor receives data faster than it can digest, it puts the data in a buffer.</p>
+<p>A simple visualization of a buffer is when you are watching a YouTube video and the red line goes beyond your visualization point: you are downloading data faster than you're viewing it, and your browser buffers it.</p>
+<h2><a class="anchor" aria-hidden="true" id="how-to-create-a-buffer"></a><a href="#how-to-create-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to create a buffer</h2>
+<p>A buffer is created using any of the following methods:</p>
+<ul>
+<li><code>Buffer.from(array)</code></li>
+<li><code>Buffer.from(buffer)</code></li>
+<li><code>Buffer.from(string[, encoding])</code></li>
+</ul>
+<p>Also, a buffer can be initialized by passing the size. This creates a 1KB buffer:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.alloc(<span class="hljs-number">1024</span>); <span class="hljs-comment">// the buffer will be initialized with zeroes </span>
+<span class="hljs-comment">//or</span>
+<span class="hljs-keyword">const</span> buf = Buffer.allocUnsafe(<span class="hljs-number">1024</span>); <span class="hljs-comment">// the buffer will be uninitialized</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="using-a-buffer"></a><a href="#using-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using a buffer</h2>
+<p>A buffer, being an array of bytes, can be accessed like an array:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.from(<span class="hljs-string">'Hey!'</span>);
+<span class="hljs-built_in">console</span>.log(buf[<span class="hljs-number">0</span>]); <span class="hljs-comment">//72</span>
+<span class="hljs-built_in">console</span>.log(buf[<span class="hljs-number">1</span>]); <span class="hljs-comment">//101</span>
+<span class="hljs-built_in">console</span>.log(buf[<span class="hljs-number">2</span>]); <span class="hljs-comment">//121</span>
+</code></pre>
+<p>Those numbers are the Unicode Code. The full content of the buffer can be printed by using using the <code>toString()</code> method.</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-built_in">console</span>.log(buf.toString());
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="get-the-length-of-a-buffer"></a><a href="#get-the-length-of-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Get the length of a buffer</h3>
+<p>Use the length property:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.from(<span class="hljs-string">'Hey!'</span>);
+<span class="hljs-built_in">console</span>.log(buf.length);
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="iterate-over-the-contents-of-a-buffer"></a><a href="#iterate-over-the-contents-of-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Iterate over the contents of a buffer</h3>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.from(<span class="hljs-string">'Hey!'</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> buf) {
+  <span class="hljs-built_in">console</span>.log(item); <span class="hljs-comment">//72 101 121 33</span>
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="changing-the-content-of-a-buffer"></a><a href="#changing-the-content-of-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changing the content of a buffer</h3>
+<p>Write a whole string of data by using the write() method:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.alloc(<span class="hljs-number">4</span>);
+buf.write(<span class="hljs-string">'Hey!'</span>);
+</code></pre>
+<p>It is possible to set the contents of the buffer like an array:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.from(<span class="hljs-string">'Hey!'</span>);
+buf[<span class="hljs-number">1</span>] = <span class="hljs-number">111</span>; <span class="hljs-comment">//o</span>
+<span class="hljs-built_in">console</span>.log(buf.toString()); <span class="hljs-comment">//Hoy!</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="copy-a-buffer"></a><a href="#copy-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Copy a buffer</h3>
+<p>Copying a buffer is possible using the <code>copy()</code> method:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.from(<span class="hljs-string">'Hey!'</span>);
+<span class="hljs-keyword">let</span> bufcopy = Buffer.alloc(<span class="hljs-number">4</span>); <span class="hljs-comment">//allocate 4 bytes</span>
+buf.copy(bufcopy);
+</code></pre>
+<p>By default whole buffer is copied. 3 more parameters let you define the starting position, the ending position, and the new buffer length:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.from(<span class="hljs-string">'Hey!'</span>);
+<span class="hljs-keyword">let</span> bufcopy = Buffer.alloc(<span class="hljs-number">2</span>); <span class="hljs-comment">//allocate 2 bytes</span>
+buf.copy(bufcopy, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>);
+bufcopy.toString(); <span class="hljs-comment">//'He'</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="slice-a-buffer"></a><a href="#slice-a-buffer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Slice a buffer</h3>
+<p>If you want to create a partial visualization of a buffer, you can create a slice. A slice is not a copy: the original buffer is still the source of truth. If that changes, your slice changes.</p>
+<p>Use the slice() method to create it. The first parameter is the starting position, and you can specify an optional second parameter with the end position:</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> buf = Buffer.from(<span class="hljs-string">'Hey!'</span>);
+buf.slice(<span class="hljs-number">0</span>).toString(); <span class="hljs-comment">//Hey!</span>
+<span class="hljs-keyword">const</span> slice = buf.slice(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>);
+<span class="hljs-built_in">console</span>.log(slice.toString()); <span class="hljs-comment">//He</span>
+buf[<span class="hljs-number">1</span>] = <span class="hljs-number">111</span>; <span class="hljs-comment">//o</span>
+<span class="hljs-built_in">console</span>.log(slice.toString()); <span class="hljs-comment">//Ho</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/nodejsdocdocs/fs"><span class="arrow-prev">← </span><span>File system</span></a><a class="docs-next button" href="/nodejsdocdocs/streams"><span>Streams</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#what-is-a-buffer">What is a buffer?</a></li><li><a href="#how-to-create-a-buffer">How to create a buffer</a></li><li><a href="#using-a-buffer">Using a buffer</a><ul class="toc-headings"><li><a href="#get-the-length-of-a-buffer">Get the length of a buffer</a></li><li><a href="#iterate-over-the-contents-of-a-buffer">Iterate over the contents of a buffer</a></li><li><a href="#changing-the-content-of-a-buffer">Changing the content of a buffer</a></li><li><a href="#copy-a-buffer">Copy a buffer</a></li><li><a href="#slice-a-buffer">Slice a buffer</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"></footer></div></body></html>
